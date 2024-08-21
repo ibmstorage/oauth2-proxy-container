@@ -1,0 +1,7 @@
+---
+image_build_method: imagebuilder
+remote_source:
+    repo: https://github.com/oauth2-proxy/oauth2-proxy.git
+    ref: 7af1e42788e599c2e05f0e66211c33c33287c0dc
+compose:
+  pulp_repos: true

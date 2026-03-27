@@ -1,7 +1,5 @@
-ARG RUNTIME_IMAGE=registry.redhat.io/ubi9/ubi:latest
-FROM registry.redhat.io/rhel8/go-toolset:1.21 AS builder
-
-USER root
+ARG RUNTIME_IMAGE=registry.redhat.io/ubi9/ubi-micro@sha256:2173487b3b72b1a7b11edc908e9bbf1726f9df46a4f78fd6d19a2bab0a701f38
+FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.22 AS builder
 
 COPY oauth2-proxy/* /app/
 WORKDIR /app/

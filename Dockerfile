@@ -1,25 +1,22 @@
 ARG RUNTIME_IMAGE=registry.redhat.io/ubi9/ubi-micro@sha256:2173487b3b72b1a7b11edc908e9bbf1726f9df46a4f78fd6d19a2bab0a701f38
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.22 AS builder
+FROM registry.redhat.io/rhel8/go-toolset:1.21 AS builder
+
+USER root
+
+WORKDIR $GOPATH/src/github.com/oauth2-proxy/oauth2-proxy
+
+COPY go.mod go.sum ./
+RUN go mod download
 
 COPY oauth2-proxy/* /app/
 WORKDIR /app/
 
-# Fetch dependencies
-RUN if [ -f /cachi2/cachi2.env ]; then . /cachi2/cachi2.env; fi && \
-    go mod download
-
-# Arguments go here so that the previous steps can be cached if no external
-# sources have changed.
-
-# Original Dockerfile has `ARG VERSION` instead. Here we rename it to `OAUTH2_PROXY_VERSION`
-# as the golang_builder base image already defines an environment variable `VERSION` which means
-# any call later to `$VERSION` actually refers to the latter.
 ARG OAUTH2_PROXY_VERSION=v7.6.0
 RUN VERSION=${OAUTH2_PROXY_VERSION} make build && touch jwt_signing_key.pem
 
 FROM ${RUNTIME_IMAGE}
-COPY --from=builder /app/oauth2-proxy /bin/oauth2-proxy
-COPY --from=builder /app/jwt_signing_key.pem /etc/ssl/private/jwt_signing_key.pem
+COPY --from=builder /src/github.com/oauth2-proxy/oauth2-proxy/oauth2-proxy /bin/oauth2-proxy
+COPY --from=builder /src/github.com/oauth2-proxy/oauth2-proxy/jwt_signing_key.pem /etc/ssl/private/jwt_signing_key.pem
 
 ENTRYPOINT ["/bin/oauth2-proxy"]
 

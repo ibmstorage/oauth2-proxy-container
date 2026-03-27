@@ -5,14 +5,20 @@ USER root
 
 WORKDIR $GOPATH/src/github.com/oauth2-proxy/oauth2-proxy
 
+# Fetch dependencies
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY oauth2-proxy/* /app/
-WORKDIR /app/
+COPY oauth2-proxy/. ./
 
+# Arguments go here so that the previous steps can be cached if no external
+# sources have changed.
+
+# Original Dockerfile has `ARG VERSION` instead. Here we rename it to `OAUTH2_PROXY_VERSION`
+# as the golang_builder base image already defines an environment variable `VERSION` which means
+# any call later to `$VERSION` actually refers to the latter.
 ARG OAUTH2_PROXY_VERSION=v7.6.0
-RUN VERSION=${OAUTH2_PROXY_VERSION} make build && touch jwt_signing_key.pem
+RUN GOARCH=${TARGETARCH} VERSION=${OAUTH2_PROXY_VERSION} make build && touch jwt_signing_key.pem
 
 FROM ${RUNTIME_IMAGE}
 COPY --from=builder /src/github.com/oauth2-proxy/oauth2-proxy/oauth2-proxy /bin/oauth2-proxy

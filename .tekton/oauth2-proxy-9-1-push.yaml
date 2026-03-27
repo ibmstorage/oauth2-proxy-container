@@ -69,7 +69,7 @@ spec:
       description: Execute the build with network isolation
       name: hermetic
       type: string
-    - default: '{"type": "gomod", "path": "oauth2-proxy"}'
+    - default: '{"type": "gomod", "path": "."}'
       description: Build dependencies to be prefetched
       name: prefetch-input
       type: string

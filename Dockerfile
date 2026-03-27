@@ -6,7 +6,6 @@ WORKDIR /app/
 
 # Fetch dependencies
 RUN if [ -f /cachi2/cachi2.env ]; then . /cachi2/cachi2.env; fi && \
-    go mod vendor && \
     go mod download
 
 # Arguments go here so that the previous steps can be cached if no external

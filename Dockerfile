@@ -1,7 +1,10 @@
-ARG RUNTIME_IMAGE=registry.redhat.io/ubi9/ubi-micro:latest
-FROM openshift/golang-builder:rhel_8_golang_1.22 AS builder
-COPY ${REMOTE_SOURCE} ${REMOTE_SOURCE_DIR}
-WORKDIR $REMOTE_SOURCE_DIR/app
+ARG RUNTIME_IMAGE=registry.redhat.io/ubi9/ubi:latest
+FROM registry.redhat.io/ubi8/go-toolset:1.22.9 AS builder
+
+USER root
+
+COPY oauth2-proxy/* /app/
+WORKDIR /app/
 
 # Fetch dependencies
 RUN go mod vendor
@@ -17,8 +20,8 @@ ARG OAUTH2_PROXY_VERSION=v7.6.0
 RUN VERSION=${OAUTH2_PROXY_VERSION} make build && touch jwt_signing_key.pem
 
 FROM ${RUNTIME_IMAGE}
-COPY --from=builder ${REMOTE_SOURCE_DIR}/app/oauth2-proxy /bin/oauth2-proxy
-COPY --from=builder ${REMOTE_SOURCE_DIR}/app/jwt_signing_key.pem /etc/ssl/private/jwt_signing_key.pem
+COPY --from=builder /app/oauth2-proxy /bin/oauth2-proxy
+COPY --from=builder /app/jwt_signing_key.pem /etc/ssl/private/jwt_signing_key.pem
 
 ENTRYPOINT ["/bin/oauth2-proxy"]
 
@@ -26,7 +29,7 @@ ENTRYPOINT ["/bin/oauth2-proxy"]
 LABEL maintainer="Guillaume Abrioux <gabrioux@ibm.com>"
 LABEL com.redhat.component="oauth2-proxy-container"
 LABEL version=v7.6.0
-LABEL name="oauth2-proxy"
+LABEL name=rhceph/oauth2-proxy-rhel9
 LABEL description="IBM Ceph Storage oauth2-proxy container"
 LABEL summary="oauth2-proxy container on RHEL 9 for IBM Ceph Storage"
 LABEL io.k8s.display-name="oauth2-proxy on RHEL 9"

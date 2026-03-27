@@ -1,5 +1,5 @@
 ARG RUNTIME_IMAGE=registry.redhat.io/ubi9/ubi:latest
-FROM registry.redhat.io/ubi8/go-toolset:1.22.9 AS builder
+FROM registry.redhat.io/rhel8/go-toolset:1.21 AS builder
 
 USER root
 
@@ -7,8 +7,8 @@ COPY oauth2-proxy/* /app/
 WORKDIR /app/
 
 # Fetch dependencies
-RUN go mod vendor
-RUN go mod download
+RUN if [ -f /cachi2/cachi2.env ]; then . /cachi2/cachi2.env; fi && \
+    go mod download
 
 # Arguments go here so that the previous steps can be cached if no external
 # sources have changed.

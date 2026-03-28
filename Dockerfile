@@ -6,7 +6,7 @@ FROM registry.redhat.io/rhel8/go-toolset:1.21 AS builder
 WORKDIR $GOPATH/src/github.com/oauth2-proxy/oauth2-proxy
 
 # Fetch dependencies
-COPY go.mod go.sum ./
+COPY oauth2-proxy/go.mod oauth2-proxy/go.sum ./
 RUN go mod download
 
 COPY oauth2-proxy/. ./

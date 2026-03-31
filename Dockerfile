@@ -1,4 +1,4 @@
-ARG RUNTIME_IMAGE=registry.redhat.io/ubi9-minimal:latest
+ARG RUNTIME_IMAGE=registry.redhat.io/ubi10/ubi-minimal:latest
 FROM registry.redhat.io/rhel8/go-toolset:1.21 AS builder
 
 WORKDIR $GOPATH/src/github.com/oauth2-proxy/oauth2-proxy
@@ -28,9 +28,9 @@ ENTRYPOINT ["/bin/oauth2-proxy"]
 LABEL maintainer="Guillaume Abrioux <gabrioux@ibm.com>"
 LABEL com.redhat.component="oauth2-proxy-container"
 LABEL version=v7.6.0
-LABEL name=rhceph/oauth2-proxy-rhel9
+LABEL name=rhceph/oauth2-proxy-rhel10
 LABEL description="IBM Ceph Storage oauth2-proxy container"
 LABEL summary="oauth2-proxy container on RHEL 9 for IBM Ceph Storage"
-LABEL io.k8s.display-name="oauth2-proxy on RHEL 9"
+LABEL io.k8s.display-name="oauth2-proxy on RHEL 10"
 LABEL io.openshift.tags="ibm ceph oauth2-proxy"
-LABEL cpe=cpe:/a:redhat:ceph_storage:9.0::el9
+LABEL cpe=cpe:/a:redhat:ceph_storage:9.0::el10

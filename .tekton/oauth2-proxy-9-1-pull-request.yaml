@@ -100,7 +100,7 @@ spec:
     - default: "false"
       description: Enable cache proxy configuration
       name: enable-cache-proxy
-    - default: ["OAUTH2_PROXY_VERSION=v7.6.0"]
+    - default: ["OAUTH2_PROXY_VERSION=v7.14.0"]
       description: Array of --build-arg values ("arg=value" strings) for buildah
       name: build-args
       type: array

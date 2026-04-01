@@ -15,7 +15,7 @@ COPY oauth2-proxy/. ./
 # Original Dockerfile has `ARG VERSION` instead. Here we rename it to `OAUTH2_PROXY_VERSION`
 # as the golang_builder base image already defines an environment variable `VERSION` which means
 # any call later to `$VERSION` actually refers to the latter.
-ARG OAUTH2_PROXY_VERSION=v7.6.0
+ARG OAUTH2_PROXY_VERSION=v7.14.0
 RUN VERSION=${OAUTH2_PROXY_VERSION} make build && touch jwt_signing_key.pem
 
 FROM ${RUNTIME_IMAGE}
@@ -27,7 +27,7 @@ ENTRYPOINT ["/bin/oauth2-proxy"]
 # Build specific labels
 LABEL maintainer="Guillaume Abrioux <gabrioux@ibm.com>"
 LABEL com.redhat.component="oauth2-proxy-container"
-LABEL version=v7.6.0
+LABEL version=v7.14.0
 LABEL name="oauth2-proxy"
 LABEL description="IBM Ceph Storage oauth2-proxy container"
 LABEL summary="oauth2-proxy container on RHEL 9 for IBM Ceph Storage"

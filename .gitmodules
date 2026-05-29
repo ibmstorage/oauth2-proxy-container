@@ -1,4 +1,4 @@
 [submodule "oauth2-proxy"]
 	path = oauth2-proxy
 	url = https://github.com/ibmstorage/oauth2-proxy.git
-	branch = release-9.1
+	branch = release-9.2

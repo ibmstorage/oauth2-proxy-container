@@ -34,3 +34,6 @@ LABEL summary="oauth2-proxy container on RHEL 9 for IBM Ceph Storage"
 LABEL io.k8s.display-name="oauth2-proxy on RHEL 10"
 LABEL io.openshift.tags="ibm ceph oauth2-proxy"
 LABEL cpe=cpe:/a:redhat:ceph_storage:9.2::el10
+
+# Z-stream indicator
+LABEL Z-VERSION="9.2"

@@ -36,4 +36,4 @@ LABEL io.openshift.tags="ibm ceph oauth2-proxy"
 LABEL cpe=cpe:/a:redhat:ceph_storage:9.1::el10
 
 # Z-stream indicator
-LABEL Z-VERSION="9.1"
+LABEL Z-VERSION="9.1z1"

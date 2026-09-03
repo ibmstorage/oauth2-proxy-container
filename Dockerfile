@@ -1,5 +1,5 @@
 ARG RUNTIME_IMAGE=registry.redhat.io/ubi9-minimal:latest
-FROM registry.redhat.io/rhel8/go-toolset:1.25 AS builder
+FROM registry.redhat.io/rhel8/go-toolset:1.26.7-1788328948 AS builder
 
 WORKDIR $GOPATH/src/github.com/oauth2-proxy/oauth2-proxy
 

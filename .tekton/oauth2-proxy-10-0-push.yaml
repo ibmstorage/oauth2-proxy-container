@@ -8,13 +8,13 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "release-9.2"
+      == "release-10.0"
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: ceph-9-2
-    appstudio.openshift.io/component: oauth2-proxy-9-2
+    appstudio.openshift.io/application: ceph-10-0
+    appstudio.openshift.io/component: oauth2-proxy-10-0
     pipelines.appstudio.openshift.io/type: build
-  name: oauth2-proxy-9-2-on-push
+  name: oauth2-proxy-10-0-on-push
   namespace: ceph-tenant
 spec:
   timeouts:
@@ -26,7 +26,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/rhceph-ci/oauth2-proxy:v9.2-{{revision}}
+    value: quay.io/rhceph-ci/oauth2-proxy:v10.0-{{revision}}
   - name: build-platforms
     value:
     - linux/x86_64
@@ -566,7 +566,7 @@ spec:
         value: $(tasks.build-image-index.results.IMAGE_DIGEST)
       - name: ADDITIONAL_TAGS
         value:
-        - "v9.2"
+        - "v10.0"
         - "{{target_branch}}-$(tasks.clone-repository.results.commit-timestamp)"
       runAfter:
       - build-image-index
@@ -630,7 +630,7 @@ spec:
     - name: netrc
       optional: true
   taskRunTemplate:
-    serviceAccountName: build-pipeline-oauth2-proxy-9-2
+    serviceAccountName: build-pipeline-oauth2-proxy-10-0
   workspaces:
   - name: git-auth
     secret:
